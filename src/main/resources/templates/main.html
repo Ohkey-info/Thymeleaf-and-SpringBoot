@@ -22,7 +22,7 @@
 
         function getOrderTotalPrice(){
             var orderTotalPrice = 0;
-            $("input[name=cartChkBox]:checked").each(function() {
+            $("input[name=cartChkBox]").each(function() {
                 var cartItemId = $(this).val();
                 var price = $("#price_" + cartItemId).attr("data-price");
                 var count = $("#count_" + cartItemId).val();
@@ -99,7 +99,7 @@
                 dataType : "json",
                 cache   : false,
                 success  : function(result, status){
-                    location.href='/';
+                    location.reload()
                 },
                 error : function(jqXHR, status, error){
 
@@ -121,7 +121,9 @@
             alert("주문이 완료 되었습니다.")
             location.href='/order'
         }
-
+        $(document).ready( function () {
+            getOrderTotalPrice();
+        });
     </script>
 </th:block>
 <!-- 사용자 CSS 추가 -->
@@ -158,7 +160,6 @@
 </th:block>
 
 <div layout:fragment="content">
-
     <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
     <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
         <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색 결과'"></p>
@@ -218,7 +219,7 @@
             <thead>
             <tr class="text-center">
                 <td>
-                    <input type="checkbox" id="checkall" onclick="checkAll()"> 전체선택
+                    <input type="checkbox" checked="checked" disabled="disabled" id="checkall" onclick="checkAll()"> 전체선택
                 </td>
                 <td>상품정보</td>
                 <td>상품금액</td>
@@ -227,7 +228,7 @@
             <tbody>
             <tr th:each="cartItem : ${cartItems}">
                 <td class="text-center align-middle">
-                    <input type="checkbox" name="cartChkBox" th:value="${cartItem.cartItemId}">
+                    <input type="checkbox" checked="checked" disabled="disabled" name="cartChkBox" th:value="${cartItem.cartItemId}">
                 </td>
                 <td class="d-flex">
                     <div class="repImgDiv align-self-center">
